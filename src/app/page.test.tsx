@@ -2,11 +2,9 @@ import { getByRole, render, screen } from "@testing-library/react";
 import Home from "./page";
 
 describe("home page", () => {
-  it("renders 'deploy now' button", () => {
+  it("renders copyright notice", () => {
     render(<Home />);
-    const button = screen.getByRole("link", {
-      name: "Vercel logomark Deploy now",
-    });
-    expect(button).toBeInTheDocument();
+    const copyright = screen.getByText("Copyright © 2025 Mona Weichelt");
+    expect(copyright).toBeInTheDocument();
   });
 });
