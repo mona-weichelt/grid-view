@@ -1,41 +1,59 @@
 "use client";
 
-import GridView, { GridItem } from "@/components/GridView";
-import data from "../../data/grid-items.json";
-import { useState } from "react";
+import GridView from "@/components/GridView";
+import useData from "@/hooks/useData";
+import search from "@/services/search";
+import { useRef, useState } from "react";
 
-//TODO: include regex
-const search = (term: string, data: GridItem[]): GridItem[] =>
-  data.filter((item) => {
-    return (
-      item.description.includes(term) ||
-      item.title.includes(term) ||
-      item.imagePath.includes(term)
-    );
-  });
+const NoResultScreen = ({ onPress = () => {} }: { onPress?: () => void }) => {
+  return (
+    <button
+      className="flex-1 flex flex-col justify-center items-center"
+      onClick={onPress}
+    >
+      <h1>We could not find anything matching your search.</h1>
+      <h2>Click to clear the search :3</h2>
+    </button>
+  );
+};
 
 export default function Home() {
+  const data = useData();
   const [searchTerm, setSearchTerm] = useState("");
-  const filteredData = search(searchTerm, data);
+  const searchBarRef = useRef<any>(null);
+
+  const filteredData = search.findInItemList(searchTerm, data);
   const isSearchActive = searchTerm.length > 0;
   const hasResults = filteredData.length > 0;
   const isSearchFailed = isSearchActive && !hasResults;
 
   return (
     <div className="min-h-screen flex flex-col font-[family-name:var(--font-geist-sans)]">
-      <header className="sticky top-0 bg-white p-2 flex flex-row justify-between items-center shadow-md">
-        <h1 className="hidden sm:block">Mona's Grid View</h1>
+      <header className="z-50 sticky top-0 bg-pink-400 p-2 px-4 flex flex-row justify-between items-center shadow-md">
+        <h1 className="hidden flex-1 sm:block text-2xl font-bold text-white">
+          Mona's Grid View
+        </h1>
         <input
+          ref={searchBarRef}
+          type="search"
           placeholder="Search for grid items..."
           onChange={(e) => setSearchTerm(e.target.value)}
           className="p-2 flex-1 rounded-md border hover:border-blue-500"
         />
+        <div className="flex-1 hidden md:block" />
       </header>
-      <main className="flex-1">
+      <main className="flex-1 flex bg-gray-200 justify-center">
         {isSearchFailed ? (
-          <h1>Sorry :c</h1>
+          <NoResultScreen
+            onPress={() => {
+              if (searchBarRef.current) {
+                searchBarRef.current.value = "";
+              }
+              setSearchTerm("");
+            }}
+          />
         ) : (
-          <GridView data={filteredData} firstPageSize={2} pageSize={1} />
+          <GridView data={filteredData} />
         )}
       </main>
       <footer className="p-8 text-center bg-pink-300">
