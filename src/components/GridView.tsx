@@ -14,7 +14,7 @@ type GridViewProps = {
 
 const GridItem = ({ title, description, imagePath }: GridItem) => {
   return (
-    <div className="relative flex flex-col hover:scale-105 duration-200 ease-in-out break-inside-avoid-column bg-white shadow-lg">
+    <div className="flex flex-col hover:scale-105 duration-200 ease-in-out break-inside-avoid-column bg-white shadow-lg">
       <h1 className="p-2 font-bold md:text-2xl text-left">{title}</h1>
       <Image
         className="lg:max-w-64 object-scale-down"
