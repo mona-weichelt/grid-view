@@ -14,7 +14,8 @@ type GridViewProps = {
 
 const GridItem = ({ title, description, imagePath }: GridItem) => {
   return (
-    <button className="relative bg-white border shadow-lg rounded-lg flex flex-col overflow-clip hover:scale-105 duration-200 ease-in-out">
+    <div className="relative flex flex-col hover:scale-105 duration-200 ease-in-out break-inside-avoid-column bg-white shadow-lg">
+      <h1 className="p-2 font-bold md:text-2xl text-left">{title}</h1>
       <Image
         className="lg:max-w-64 object-scale-down"
         alt={title}
@@ -22,13 +23,8 @@ const GridItem = ({ title, description, imagePath }: GridItem) => {
         width={800}
         height={800}
       />
-      <div className="px-2 py-1 absolute">
-        <h1 className="font-bold text-xl text-white">{title}</h1>
-      </div>
-      <div className="absolute w-full h-full flex justify-center items-center text-center">
-        <p className="flex-1 text-white">{description}</p>
-      </div>
-    </button>
+      <p className="p-2">{description}</p>
+    </div>
   );
 };
 
