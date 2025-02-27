@@ -33,7 +33,9 @@ const PageNavigator = ({
             value > 1 && Math.abs(array[index - 1] - value) > 1;
           return (
             <>
-              {shouldRenderDots && <MdMoreHoriz size={24} />}
+              {shouldRenderDots && (
+                <MdMoreHoriz size={24} key={`dots-${value}`} />
+              )}
               <button
                 key={value}
                 className="w-12 h-12 border-2 border-pink-400 rounded-lg text-xl"

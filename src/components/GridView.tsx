@@ -14,7 +14,7 @@ type GridViewProps = {
 const getWidthFromSource = (src: string) => {
   const parameterIndex = src.indexOf("w=");
 
-  if (parameterIndex === undefined) return 800;
+  if (parameterIndex < 0) return 800;
 
   const lastIndex = src.indexOf("&", parameterIndex);
 
