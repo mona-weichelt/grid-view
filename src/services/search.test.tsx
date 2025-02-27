@@ -13,6 +13,7 @@ describe("search function", () => {
         description: "Stay wired",
         imagePath:
           "https://images.unsplash.com/photo-1563240381-5ccf7690ca08?ixid=MXwxMjA3fDB8MHxzZWFyY2h8NTV8fG5lb258ZW58MHx8MHw%3D&amp;ixlib=rb-1.2.1&amp;auto=format&amp;fit=crop&amp;w=800&amp;q=60",
+        id: "4",
       },
     ]);
   });

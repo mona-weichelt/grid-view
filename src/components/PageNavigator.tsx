@@ -35,7 +35,7 @@ const PageNavigator = ({
           return (
             <React.Fragment key={value}>
               {shouldRenderDots && (
-                <MdMoreHoriz size={24} key={`dots-${value}`} />
+                <MdMoreHoriz size={24} key={`dots-${value}`} role="img" />
               )}
               <button
                 key={value}

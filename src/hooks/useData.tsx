@@ -2,7 +2,7 @@ import { GridItem } from "@/components/GridView";
 import data from "../../data/grid-items.json";
 import mockData from "../../data/mock-data.json";
 
-const decode = (str: string): string => {
+export const decode = (str: string): string => {
   return str
     .replace(/&amp;/g, "&")
     .replace(/&lt;/g, "<")

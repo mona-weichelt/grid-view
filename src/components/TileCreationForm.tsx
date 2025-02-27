@@ -1,5 +1,11 @@
 import Link from "next/link";
-import { ChangeEventHandler, HTMLInputTypeAttribute, useState } from "react";
+import {
+  ChangeEventHandler,
+  Dispatch,
+  HTMLInputTypeAttribute,
+  SetStateAction,
+  useState,
+} from "react";
 import { FaCheck } from "react-icons/fa";
 import { IoMdClose } from "react-icons/io";
 import { MdErrorOutline } from "react-icons/md";
@@ -36,37 +42,44 @@ type TileCreationFormProps = {
   className?: string;
 };
 
+export const createTileData = (
+  file: File,
+  title: string,
+  description: string,
+  setIsSuccess: Dispatch<SetStateAction<boolean | null>>
+): Promise<GridItem> => {
+  const fileReader = new FileReader();
+  fileReader.readAsDataURL(file);
+
+  return new Promise<GridItem>((resolve, reject) => {
+    fileReader.onload = () => {
+      const result = fileReader.result as string;
+      resolve({
+        title: title,
+        description: description,
+        imagePath: result,
+        id: `custom-image-${Date.now()}`,
+      });
+      setIsSuccess(true);
+    };
+    fileReader.onerror = () => {
+      reject("Failed to read image");
+      setIsSuccess(false);
+    };
+  });
+};
+
 const TileCreationForm = ({ onSubmit, className }: TileCreationFormProps) => {
   const [isSuccess, setIsSuccess] = useState<boolean | null>(null);
-
-  const createTileData = (formData: FormData): Promise<GridItem> => {
-    const image = formData.get("image") as File;
-    const fileReader = new FileReader();
-    fileReader.readAsDataURL(image);
-
-    return new Promise<GridItem>((resolve, reject) => {
-      fileReader.onload = () => {
-        const result = fileReader.result as string;
-        resolve({
-          title: formData.get("title")?.toString() ?? "",
-          description: formData.get("description")?.toString() ?? "",
-          imagePath: result,
-          id: `custom-image-${Date.now()}`,
-        });
-        setIsSuccess(true);
-      };
-      fileReader.onerror = () => {
-        reject("Failed to read image");
-        setIsSuccess(false);
-      };
-    });
-  };
 
   return (
     <div className={"flex justify-center items-center " + className}>
       <form
         action={(formData) => {
-          onSubmit(createTileData(formData));
+          const file = formData.get("image") as File;
+          const title = formData.get("title")?.toString() ?? "";
+          const description = formData.get("description")?.toString() ?? "";
+          onSubmit(createTileData(file, title, description, setIsSuccess));
         }}
         className="bg-white p-4 rounded-lg flex flex-col"
       >
