@@ -102,7 +102,7 @@ export default function Home() {
           <p>Copyright © 2025 Mona Weichelt</p>
         </footer>
         {show && (
-          <div className="fixed z-40 w-full h-full flex justify-center">
+          <div className="fixed z-40 w-full h-full flex justify-center items-center">
             <Link
               scroll={false}
               href="/"
@@ -114,7 +114,7 @@ export default function Home() {
                   setCustomTiles((x) => [...x, item]);
                 });
               }}
-              className="z-50"
+              className="z-50 h-fit mx-4"
             />
           </div>
         )}

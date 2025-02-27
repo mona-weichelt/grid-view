@@ -1,4 +1,3 @@
-import search from "@/services/search";
 import { Dispatch, SetStateAction, useState } from "react";
 
 type Search<T> = {
