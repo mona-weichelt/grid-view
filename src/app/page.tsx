@@ -78,7 +78,7 @@ export default function Home() {
                 onPress={setPage}
                 className="mb-4 justify-end"
               />
-              <GridView data={pagedData} className="flex-1" />
+              <GridView key={"grid-view"} data={pagedData} className="flex-1" />
               <PageNavigator
                 key={"navigator-2"}
                 pageCount={pageCount}
@@ -113,7 +113,7 @@ export default function Home() {
                 setCustomTiles((x) => [...x, item]);
               });
             }}
-            className="z-50"
+            className="z-50 fixed self-center m-2"
           />
         )}
       </div>

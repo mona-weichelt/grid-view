@@ -1,16 +1,16 @@
 import Link from "next/link";
-import { HTMLInputTypeAttribute, useState } from "react";
+import { ChangeEventHandler, HTMLInputTypeAttribute, useState } from "react";
 import { IoMdClose } from "react-icons/io";
 import { GridItem } from "./GridView";
-import Image from "next/image";
-import { resolve } from "path";
 
 const FormInput = ({
   name,
   type,
+  onChange,
 }: {
   name: string;
   type?: HTMLInputTypeAttribute;
+  onChange?: ChangeEventHandler<HTMLInputElement>;
 }) => {
   return (
     <>
@@ -22,6 +22,7 @@ const FormInput = ({
         type={type}
         accept={type === "file" ? "image/*" : undefined}
         name={name}
+        onChange={onChange}
         className="p-2 border w-full rounded-lg hover:border-blue-400"
       />
     </>
@@ -34,6 +35,8 @@ type TileCreationFormProps = {
 };
 
 const TileCreationForm = ({ onSubmit, className }: TileCreationFormProps) => {
+  const [isSuccess, setIsSuccess] = useState<boolean | null>(null);
+
   const createTileData = (formData: FormData): Promise<GridItem> => {
     const image = formData.get("image") as File;
     const fileReader = new FileReader();
@@ -42,24 +45,23 @@ const TileCreationForm = ({ onSubmit, className }: TileCreationFormProps) => {
     return new Promise<GridItem>((resolve, reject) => {
       fileReader.onload = () => {
         const result = fileReader.result as string;
-        const slicedResult = result.slice(result.indexOf(";base64,") + 8);
         resolve({
           title: formData.get("title")?.toString() ?? "",
           description: formData.get("description")?.toString() ?? "",
           imagePath: result,
+          id: `custom-image-${Date.now()}`,
         });
+        setIsSuccess(true);
       };
-      fileReader.onerror = () => reject("Failed to read image");
+      fileReader.onerror = () => {
+        reject("Failed to read image");
+        setIsSuccess(false);
+      };
     });
   };
 
   return (
-    <div
-      className={
-        "fixed self-center top-1/3 my-auto flex justify-center items-center " +
-        className
-      }
-    >
+    <div className={"flex justify-center items-center " + className}>
       <form
         action={(formData) => {
           onSubmit(createTileData(formData));
@@ -72,15 +74,20 @@ const TileCreationForm = ({ onSubmit, className }: TileCreationFormProps) => {
             <IoMdClose size={32} />
           </Link>
         </div>
-        <FormInput name="title" />
-        <FormInput name="description" />
-        <FormInput name="image" type="file" />
+        <FormInput name="title" onChange={() => setIsSuccess(null)} />
+        <FormInput name="description" onChange={() => setIsSuccess(null)} />
+        <FormInput
+          name="image"
+          type="file"
+          onChange={() => setIsSuccess(null)}
+        />
         <button
           type="submit"
           className="bg-pink-500 w-fit p-2 px-4 mt-8 mb-4 rounded-lg text-white font-bold self-center"
         >
           Submit!
         </button>
+        {isSuccess === true && <h1>Success!</h1>}
       </form>
     </div>
   );

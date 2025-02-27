@@ -1,3 +1,4 @@
+import React from "react";
 import { MdMoreHoriz } from "react-icons/md";
 
 type PageNavigatorProps = {
@@ -25,14 +26,14 @@ const PageNavigator = ({
 
   return (
     <div className={"space-x-2 flex flex-row items-center " + className}>
-      {[...Array.from(indicesToRender)]
+      {Array.from(indicesToRender)
         .sort((a, b) => a - b)
         .map((value, index, array) => {
           const isSelected = value === currentPage;
           const shouldRenderDots =
             value > 1 && Math.abs(array[index - 1] - value) > 1;
           return (
-            <>
+            <React.Fragment key={value}>
               {shouldRenderDots && (
                 <MdMoreHoriz size={24} key={`dots-${value}`} />
               )}
@@ -48,7 +49,7 @@ const PageNavigator = ({
               >
                 {value + 1}
               </button>
-            </>
+            </React.Fragment>
           );
         })}
     </div>

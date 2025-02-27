@@ -4,6 +4,7 @@ export type GridItem = {
   title: string;
   description: string;
   imagePath: string;
+  id: string;
 };
 
 type GridViewProps = {
@@ -47,7 +48,7 @@ const GridView = ({ data, children, className }: GridViewProps) => {
       {children}
       <div className="gap-4 space-y-4 h-fit columns-2 md:columns-3 xl:columns-4">
         {data.map((item) => {
-          return <GridItem key={item.imagePath} {...item} />;
+          return <GridItem key={item.id} {...item} />;
         })}
       </div>
     </div>

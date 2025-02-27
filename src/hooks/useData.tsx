@@ -13,13 +13,21 @@ const decode = (str: string): string => {
 
 const useData = (mock = false): GridItem[] => {
   if (mock) {
-    return mockData;
-  } else {
-    return data.map((item: GridItem) => {
+    return mockData.map((item, index) => {
       return {
         ...item,
         title: decode(item.title),
         description: decode(item.description),
+        id: index.toString(),
+      };
+    });
+  } else {
+    return data.map((item, index) => {
+      return {
+        ...item,
+        title: decode(item.title),
+        description: decode(item.description),
+        id: index.toString(),
       };
     });
   }
