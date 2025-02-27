@@ -1,9 +1,11 @@
 "use client";
 
 import GridView from "@/components/GridView";
+import PageNavigator from "@/components/PageNavigator";
 import useData from "@/hooks/useData";
-import search from "@/services/search";
-import { useRef, useState } from "react";
+import usePagination from "@/hooks/usePagination";
+import useSearch from "@/hooks/useSearch";
+import { useRef } from "react";
 
 const NoResultScreen = ({ onPress = () => {} }: { onPress?: () => void }) => {
   return (
@@ -19,13 +21,15 @@ const NoResultScreen = ({ onPress = () => {} }: { onPress?: () => void }) => {
 
 export default function Home() {
   const data = useData();
-  const [searchTerm, setSearchTerm] = useState("");
-  const searchBarRef = useRef<any>(null);
+  const { filteredData, setSearchTerm, isSearchFailed } = useSearch(data);
+  const {
+    data: pagedData,
+    pageCount,
+    currentPage,
+    setPage,
+  } = usePagination(filteredData, 4);
 
-  const filteredData = search.findInItemList(searchTerm, data);
-  const isSearchActive = searchTerm.length > 0;
-  const hasResults = filteredData.length > 0;
-  const isSearchFailed = isSearchActive && !hasResults;
+  const searchBarRef = useRef<HTMLInputElement>(null);
 
   return (
     <div className="min-h-screen flex flex-col font-[family-name:var(--font-geist-sans)]">
@@ -37,12 +41,15 @@ export default function Home() {
           ref={searchBarRef}
           type="search"
           placeholder="Search for grid items..."
-          onChange={(e) => setSearchTerm(e.target.value)}
+          onChange={(e) => {
+            setSearchTerm(e.target.value);
+            setPage(0);
+          }}
           className="p-2 flex-1 rounded-md border hover:border-blue-500"
         />
         <div className="flex-1 hidden md:block" />
       </header>
-      <main className="flex-1 flex bg-gray-200 justify-center">
+      <main className="flex-1 flex flex-col bg-gray-200">
         {isSearchFailed ? (
           <NoResultScreen
             onPress={() => {
@@ -53,7 +60,21 @@ export default function Home() {
             }}
           />
         ) : (
-          <GridView data={filteredData} />
+          <div className="flex-1 flex flex-col mx-auto py-4 px-4 lg:px-0">
+            <PageNavigator
+              pageCount={pageCount}
+              currentPage={currentPage}
+              onPress={setPage}
+              className="mb-4 justify-end"
+            />
+            <GridView data={pagedData} className="flex-1" />
+            <PageNavigator
+              pageCount={pageCount}
+              currentPage={currentPage}
+              onPress={setPage}
+              className="mt-4 justify-end"
+            />
+          </div>
         )}
       </main>
       <footer className="p-8 text-center bg-pink-300">
