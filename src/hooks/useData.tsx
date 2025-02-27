@@ -11,10 +11,6 @@ const decode = (str: string): string => {
     .replace(/&#39;/g, "'");
 };
 
-// A hook to fetch the data for the grid.
-// Formatting or sanitizing of data could happen here.
-// It could also be changed to an API call here.
-
 const useData = (mock = false): GridItem[] => {
   if (mock) {
     return mockData;

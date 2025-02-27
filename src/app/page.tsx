@@ -27,7 +27,7 @@ export default function Home() {
     pageCount,
     currentPage,
     setPage,
-  } = usePagination(filteredData, 4);
+  } = usePagination(filteredData, 10);
 
   const searchBarRef = useRef<HTMLInputElement>(null);
 
