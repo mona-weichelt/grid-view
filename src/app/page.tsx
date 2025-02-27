@@ -78,16 +78,9 @@ export default function Home() {
                 pageCount={pageCount}
                 currentPage={currentPage}
                 onPress={setPage}
-                className="hidden md:block sticky top-16 z-20 mb-4 self-center bg-white w-fit p-2 rounded-lg shadow-lg"
+                className="sticky top-16 z-20 mb-4 self-center bg-white w-fit p-2 rounded-lg shadow-lg"
               />
               <GridView key={"grid-view"} data={pagedData} className="flex-1" />
-              <PageNavigator
-                key={"navigator-2"}
-                pageCount={pageCount}
-                currentPage={currentPage}
-                onPress={setPage}
-                className="md:hidden sticky bottom-4 z-20 mb-4 mt-8 self-center bg-white w-fit p-2 rounded-lg shadow-lg"
-              />
             </div>
           )}
           <Link
