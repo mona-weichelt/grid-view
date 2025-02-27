@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { ChangeEventHandler, HTMLInputTypeAttribute, useState } from "react";
+import { FaCheck } from "react-icons/fa";
 import { IoMdClose } from "react-icons/io";
+import { MdErrorOutline } from "react-icons/md";
 import { GridItem } from "./GridView";
 
 const FormInput = ({
@@ -81,13 +83,24 @@ const TileCreationForm = ({ onSubmit, className }: TileCreationFormProps) => {
           type="file"
           onChange={() => setIsSuccess(null)}
         />
+        {isSuccess === true && (
+          <div className="mt-8 flex flex-row justify-center items-center gap-2">
+            <h1 className="text-lg text-green-600">Success!</h1>
+            <FaCheck size={18} color="green" />
+          </div>
+        )}
+        {isSuccess === false && (
+          <div className="mt-8 flex flex-row justify-center items-center gap-2">
+            <h1 className="text-lg text-red-600">Failed to load the image</h1>
+            <MdErrorOutline size={18} color="red" />
+          </div>
+        )}
         <button
           type="submit"
           className="bg-pink-500 w-fit p-2 px-4 mt-8 mb-4 rounded-lg text-white font-bold self-center"
         >
           Submit!
         </button>
-        {isSuccess === true && <h1>Success!</h1>}
       </form>
     </div>
   );

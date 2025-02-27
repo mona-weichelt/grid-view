@@ -1,5 +1,5 @@
 import search from "@/services/search";
-import { Dispatch, SetStateAction, useRef, useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 
 type Search<T> = {
   searchTerm: string;
@@ -10,13 +10,14 @@ type Search<T> = {
   setSearchTerm: Dispatch<SetStateAction<string>>;
 };
 
-const useSearch = <T extends any>(
+const useSearch = <T,>(
   data: T[],
+  searchFunction: (searchTerm: string, data: T[]) => T[],
   initialSearchTerm = ""
 ): Search<T> => {
   const [searchTerm, setSearchTerm] = useState(initialSearchTerm);
 
-  const filteredData = search.findInItemList(searchTerm, data);
+  const filteredData = searchFunction(searchTerm, data);
   const isSearchActive = searchTerm.length > 0;
   const hasResults = filteredData.length > 0;
   const isSearchFailed = isSearchActive && !hasResults;

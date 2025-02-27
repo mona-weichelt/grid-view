@@ -6,10 +6,10 @@ import TileCreationForm from "@/components/TileCreationForm";
 import useData from "@/hooks/useData";
 import usePagination from "@/hooks/usePagination";
 import useSearch from "@/hooks/useSearch";
+import search from "@/services/search";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import React, { useState } from "react";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { FaPlus } from "react-icons/fa6";
 
 const NoResultScreen = ({ onPress = () => {} }: { onPress?: () => void }) => {
@@ -29,14 +29,16 @@ export default function Home() {
   const [customTiles, setCustomTiles] = useState<GridItem[]>([]);
   const data = useData();
   const dataWithCustomTiles = data.concat(customTiles);
-  const { filteredData, setSearchTerm, isSearchFailed } =
-    useSearch(dataWithCustomTiles);
+  const { filteredData, setSearchTerm, isSearchFailed } = useSearch(
+    dataWithCustomTiles,
+    search.findInItemList
+  );
   const {
     data: pagedData,
     pageCount,
     currentPage,
     setPage,
-  } = usePagination(filteredData, 10);
+  } = usePagination(filteredData, 12);
 
   const searchBarRef = useRef<HTMLInputElement>(null);
 
@@ -76,7 +78,7 @@ export default function Home() {
                 pageCount={pageCount}
                 currentPage={currentPage}
                 onPress={setPage}
-                className="mb-4 justify-end"
+                className="hidden md:block sticky top-16 z-20 mb-4 self-center bg-white w-fit p-2 rounded-lg shadow-lg"
               />
               <GridView key={"grid-view"} data={pagedData} className="flex-1" />
               <PageNavigator
@@ -84,14 +86,14 @@ export default function Home() {
                 pageCount={pageCount}
                 currentPage={currentPage}
                 onPress={setPage}
-                className="mt-4 justify-end"
+                className="md:hidden sticky bottom-4 z-20 mb-4 mt-8 self-center bg-white w-fit p-2 rounded-lg shadow-lg"
               />
             </div>
           )}
           <Link
             scroll={false}
             href="/?show=true"
-            className="sticky bottom-4 right-4 ml-auto mb-4 h-16 w-16 rounded-full bg-pink-500 flex justify-center items-center hover:scale-105"
+            className="sticky bottom-4 right-4 self-end mb-4 h-16 w-16 rounded-full bg-pink-500 flex justify-center items-center border-2 border-pink-500 hover:border-blue-500"
           >
             <FaPlus color="white" size={32} />
           </Link>
@@ -100,21 +102,21 @@ export default function Home() {
           <p>Copyright © 2025 Mona Weichelt</p>
         </footer>
         {show && (
-          <Link
-            scroll={false}
-            href="/"
-            className="fixed z-50 w-full h-full bg-black bg-opacity-35"
-          />
-        )}
-        {show && (
-          <TileCreationForm
-            onSubmit={(tile) => {
-              tile.then((item) => {
-                setCustomTiles((x) => [...x, item]);
-              });
-            }}
-            className="z-50 fixed self-center m-2"
-          />
+          <div className="fixed z-40 w-full h-full flex justify-center">
+            <Link
+              scroll={false}
+              href="/"
+              className="absolute w-full h-full bg-black bg-opacity-35"
+            />
+            <TileCreationForm
+              onSubmit={(tile) => {
+                tile.then((item) => {
+                  setCustomTiles((x) => [...x, item]);
+                });
+              }}
+              className="z-50"
+            />
+          </div>
         )}
       </div>
     </>

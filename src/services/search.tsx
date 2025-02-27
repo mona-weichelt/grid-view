@@ -1,8 +1,10 @@
+import { GridItem } from "@/components/GridView";
+
 const compareLowercase = (a: string, b: string) => {
   return a.toLowerCase().includes(b.toLowerCase());
 };
 
-const findInItemList = (term: string, data: any[]): any[] => {
+const findInItemList = (term: string, data: GridItem[]): GridItem[] => {
   if (term === "") return data;
   return data.filter((item) => {
     return (
@@ -12,4 +14,8 @@ const findInItemList = (term: string, data: any[]): any[] => {
   });
 };
 
-export default { findInItemList };
+const search = {
+  findInItemList,
+};
+
+export default search;

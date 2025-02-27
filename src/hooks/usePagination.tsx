@@ -7,10 +7,7 @@ type Pagination<T> = {
   setPage: Dispatch<SetStateAction<number>>;
 };
 
-const usePagination = <T extends any>(
-  data: T[],
-  pageSize = 10
-): Pagination<T> => {
+const usePagination = <T,>(data: T[], pageSize = 10): Pagination<T> => {
   const [currentPage, setCurrentPage] = useState(0);
   const numberOfPages = Math.ceil(data.length / pageSize);
 
