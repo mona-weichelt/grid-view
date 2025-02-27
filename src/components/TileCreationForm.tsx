@@ -33,7 +33,7 @@ const FormInput = ({
 
 type TileCreationFormProps = {
   onSubmit: (tile: Promise<GridItem>) => void;
-  [x: string]: any;
+  className?: string;
 };
 
 const TileCreationForm = ({ onSubmit, className }: TileCreationFormProps) => {

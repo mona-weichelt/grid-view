@@ -5,7 +5,7 @@ type PageNavigatorProps = {
   pageCount: number;
   currentPage: number;
   onPress: (page: number) => void;
-  [x: string]: any;
+  className?: string;
 };
 
 const PageNavigator = ({

@@ -9,17 +9,7 @@ export type GridItem = {
 
 type GridViewProps = {
   data: GridItem[];
-  [x: string]: any;
-};
-
-const getWidthFromSource = (src: string) => {
-  const parameterIndex = src.indexOf("w=");
-
-  if (parameterIndex < 0) return 800;
-
-  const lastIndex = src.indexOf("&", parameterIndex);
-
-  return parseInt(src.slice(parameterIndex + 2, lastIndex || src.length));
+  className?: string;
 };
 
 const GridItem = ({ title, description, imagePath }: GridItem) => {
@@ -29,7 +19,7 @@ const GridItem = ({ title, description, imagePath }: GridItem) => {
         className="lg:max-w-64 object-scale-down"
         alt={title}
         src={imagePath}
-        width={getWidthFromSource(imagePath)}
+        width={800}
         height={800}
       />
       <div className="px-2 py-1 absolute">
@@ -42,10 +32,9 @@ const GridItem = ({ title, description, imagePath }: GridItem) => {
   );
 };
 
-const GridView = ({ data, children, className }: GridViewProps) => {
+const GridView = ({ data, className }: GridViewProps) => {
   return (
     <div className={"flex flex-col " + className}>
-      {children}
       <div className="gap-4 space-y-4 h-fit columns-2 md:columns-3 xl:columns-4">
         {data.map((item) => {
           return <GridItem key={item.id} {...item} />;

@@ -47,7 +47,7 @@ export default function Home() {
       <div className="min-h-screen flex flex-col font-[family-name:var(--font-geist-sans)]">
         <header className="z-20 sticky top-0 bg-pink-400 p-2 px-4 flex flex-row justify-between items-center shadow-md">
           <h1 className="hidden flex-1 sm:block text-2xl font-bold text-white">
-            Mona's Grid View
+            Mona&apos;s Grid View
           </h1>
           <input
             ref={searchBarRef}
