@@ -1,17 +1,17 @@
 "use client";
 
 import GridView, { GridItem } from "@/components/GridView";
-import NoResultScreen from "@/components/search/NoResultsScreen";
 import Modal from "@/components/modal/Modal";
 import TileCreationForm from "@/components/modal/TileCreationForm";
 import ModalLink from "@/components/nav/ModalLink";
 import PageNavigator from "@/components/nav/PageNavigator";
+import NoResultScreen from "@/components/search/NoResultsScreen";
 import useData from "@/hooks/useData";
 import usePagination from "@/hooks/usePagination";
 import useSearch from "@/hooks/useSearch";
 import modal from "@/services/modal";
 import search from "@/services/search";
-import { Suspense, useRef, useState } from "react";
+import { useRef, useState } from "react";
 
 export default function Home() {
   const show = modal.useIsModalVisible();
