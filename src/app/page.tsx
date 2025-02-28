@@ -1,28 +1,17 @@
 "use client";
 
 import GridView, { GridItem } from "@/components/GridView";
-import PageNavigator from "@/components/PageNavigator";
-import TileCreationForm from "@/components/TileCreationForm";
+import NoResultScreen from "@/components/search/NoResultsScreen";
+import Modal from "@/components/modal/Modal";
+import TileCreationForm from "@/components/modal/TileCreationForm";
+import ModalLink from "@/components/nav/ModalLink";
+import PageNavigator from "@/components/nav/PageNavigator";
 import useData from "@/hooks/useData";
 import usePagination from "@/hooks/usePagination";
 import useSearch from "@/hooks/useSearch";
-import search from "@/services/search";
-import Link from "next/link";
 import modal from "@/services/modal";
-import { useRef, useState } from "react";
-import { FaPlus } from "react-icons/fa6";
-
-const NoResultScreen = ({ onPress = () => {} }: { onPress?: () => void }) => {
-  return (
-    <button
-      className="flex-1 flex flex-col justify-center items-center"
-      onClick={onPress}
-    >
-      <h1>We could not find anything matching your search.</h1>
-      <h2>Click to clear the search :3</h2>
-    </button>
-  );
-};
+import search from "@/services/search";
+import { Suspense, useRef, useState } from "react";
 
 export default function Home() {
   const show = modal.useIsModalVisible();
@@ -83,34 +72,25 @@ export default function Home() {
               <GridView key={"grid-view"} data={pagedData} className="flex-1" />
             </div>
           )}
-          <Link
-            scroll={false}
-            href="/?show=true"
-            className="sticky bottom-4 right-4 self-end mb-4 h-16 w-16 rounded-full bg-pink-500 flex justify-center items-center border-2 border-pink-500 hover:border-blue-500"
-          >
-            <FaPlus color="white" size={32} />
-          </Link>
+          <ModalLink />
         </main>
         <footer className="p-8 text-center bg-pink-300">
           <p>Copyright © 2025 Mona Weichelt</p>
         </footer>
-        {show && (
-          <div className="fixed z-40 w-full h-full flex justify-center items-center">
-            <Link
-              scroll={false}
-              href="/"
-              className="absolute w-full h-full bg-black bg-opacity-35"
-            />
-            <TileCreationForm
-              onSubmit={(tile) => {
-                tile.then((item) => {
-                  setCustomTiles((x) => [...x, item]);
-                });
-              }}
-              className="z-50 h-fit mx-4"
-            />
-          </div>
-        )}
+        <Suspense>
+          {show && (
+            <Modal>
+              <TileCreationForm
+                onSubmit={(tile) => {
+                  tile.then((item) => {
+                    setCustomTiles((x) => [...x, item]);
+                  });
+                }}
+                className="z-50 h-fit mx-4"
+              />
+            </Modal>
+          )}
+        </Suspense>
       </div>
     </>
   );
