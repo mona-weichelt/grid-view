@@ -32,7 +32,7 @@ export default function Home() {
   const searchBarRef = useRef<HTMLInputElement>(null);
 
   return (
-    <>
+    <Suspense>
       <div className="min-h-screen flex flex-col font-[family-name:var(--font-geist-sans)]">
         <header className="z-20 sticky top-0 bg-pink-400 p-2 px-4 flex flex-row justify-between items-center shadow-md">
           <h1 className="hidden flex-1 sm:block text-2xl font-bold text-white">
@@ -77,21 +77,19 @@ export default function Home() {
         <footer className="p-8 text-center bg-pink-300">
           <p>Copyright © 2025 Mona Weichelt</p>
         </footer>
-        <Suspense>
-          {show && (
-            <Modal>
-              <TileCreationForm
-                onSubmit={(tile) => {
-                  tile.then((item) => {
-                    setCustomTiles((x) => [...x, item]);
-                  });
-                }}
-                className="z-50 h-fit mx-4"
-              />
-            </Modal>
-          )}
-        </Suspense>
+        {show && (
+          <Modal>
+            <TileCreationForm
+              onSubmit={(tile) => {
+                tile.then((item) => {
+                  setCustomTiles((x) => [...x, item]);
+                });
+              }}
+              className="z-50 h-fit mx-4"
+            />
+          </Modal>
+        )}
       </div>
-    </>
+    </Suspense>
   );
 }
