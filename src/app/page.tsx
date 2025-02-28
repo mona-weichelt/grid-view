@@ -32,7 +32,7 @@ export default function Home() {
   const searchBarRef = useRef<HTMLInputElement>(null);
 
   return (
-    <Suspense>
+    <>
       <div className="min-h-screen flex flex-col font-[family-name:var(--font-geist-sans)]">
         <header className="z-20 sticky top-0 bg-pink-400 p-2 px-4 flex flex-row justify-between items-center shadow-md">
           <h1 className="hidden flex-1 sm:block text-2xl font-bold text-white">
@@ -90,6 +90,6 @@ export default function Home() {
           </Modal>
         )}
       </div>
-    </Suspense>
+    </>
   );
 }
