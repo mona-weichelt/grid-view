@@ -22,8 +22,8 @@ const FormInput = ({
 }) => {
   return (
     <>
-      <p className="mt-4 first-of-type:mt-0">
-        {name.charAt(0).toUpperCase() + name.slice(1)}
+      <p className="mt-4 first-of-type:mt-0 capitalize">
+        {name}
       </p>
       <input
         required
@@ -31,7 +31,7 @@ const FormInput = ({
         accept={type === "file" ? "image/*" : undefined}
         name={name}
         onChange={onChange}
-        className="p-2 border w-full rounded-lg hover:border-blue-400"
+        className="p-2 border-2 w-full bg-transparent rounded-lg dark:hover:border-pink-400 hover:border-blue-400"
       />
     </>
   );
@@ -80,7 +80,7 @@ const TileCreationForm = ({ onSubmit, className }: TileCreationFormProps) => {
         const description = formData.get("description")?.toString() ?? "";
         onSubmit(createTileData(file, title, description, setIsSuccess));
       }}
-      className={"bg-white p-4 rounded-lg flex flex-col " + className}
+      className={"bg-white dark:bg-gray-700 p-4 rounded-lg flex flex-col " + className}
     >
       <div className="flex flex-row justify-between items-center gap-16 mb-8">
         <h1 className="text-2xl">Create your own tile!</h1>

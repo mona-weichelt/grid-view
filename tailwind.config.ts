@@ -12,6 +12,20 @@ export default {
         background: "var(--background)",
         foreground: "var(--foreground)",
       },
+      keyframes: {
+        slideIn: {
+          "0%": { transform: "translateY(100vh)" },
+          "100%": { transform: "translateY(0vh)" },
+        },
+        slideOut: {
+          "0%": { transform: "translateY(0vh)" },
+          "100%": { transform: "translateY(100vh)" },
+        },
+      },
+      animation: {
+        "slide-in": "slideIn 0.16s ease-out",
+        "slide-out": "slideOut 0.16s ease-out",
+      },
     },
   },
   plugins: [],

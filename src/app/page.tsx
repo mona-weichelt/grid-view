@@ -50,7 +50,7 @@ export default function Home() {
           />
           <div className="flex-1 hidden md:block" />
         </header>
-        <main className="flex-1 flex flex-col bg-gray-200">
+        <main className="flex-1 flex flex-col bg-gray-200 dark:bg-black">
           {isSearchFailed ? (
             <NoResultScreen
               onPress={() => {
@@ -67,7 +67,7 @@ export default function Home() {
                 pageCount={pageCount}
                 currentPage={currentPage}
                 onPress={setPage}
-                className="sticky top-16 z-20 mb-4 self-end bg-white w-fit p-2 rounded-lg shadow-lg"
+                className="sticky top-16 z-20 mb-4 self-end bg-white dark:bg-gray-700 w-fit p-2 rounded-lg shadow-lg"
               />
               <GridView key={"grid-view"} data={pagedData} className="flex-1" />
             </div>
@@ -77,18 +77,16 @@ export default function Home() {
         <footer className="p-8 text-center bg-pink-300">
           <p>Copyright © 2025 Mona Weichelt</p>
         </footer>
-        {show && (
-          <Modal>
-            <TileCreationForm
-              onSubmit={(tile) => {
-                tile.then((item) => {
-                  setCustomTiles((x) => [...x, item]);
-                });
-              }}
-              className="z-50 h-fit mx-4"
-            />
-          </Modal>
-        )}
+        <Modal show={show === "true"}>
+          <TileCreationForm
+            onSubmit={(tile) => {
+              tile.then((item) => {
+                setCustomTiles((x) => [...x, item]);
+              });
+            }}
+            className="z-50 h-fit mx-4"
+          />
+        </Modal>
       </div>
     </>
   );

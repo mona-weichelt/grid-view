@@ -39,13 +39,12 @@ const PageNavigator = ({
               )}
               <button
                 key={value}
-                className="w-12 h-12 border-2 border-pink-400 rounded-lg text-xl"
+                className="w-12 h-12 border-2 hover:bg-pink-200 dark:hover:bg-gray-500 border-pink-400 rounded-lg text-xl"
                 onClick={() => onPress(value)}
                 style={{
-                  backgroundColor: isSelected ? "#f472b6" : "#FFFFFF",
-                  color: isSelected ? "#FFFFFF" : "#000000",
                   fontWeight: isSelected ? "bold" : "normal",
-                }}
+                  ...(isSelected && {background: "#f472b6", color: "#FFFFFF"})
+                }}                 
               >
                 {value + 1}
               </button>
